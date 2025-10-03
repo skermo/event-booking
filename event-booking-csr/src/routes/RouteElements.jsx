@@ -2,6 +2,7 @@ import { useRoutes } from "react-router-dom";
 import Page from "../components/layout/Page/Page.jsx";
 import AboutUs from "../pages/AboutUs/AboutUs.jsx";
 import * as routes from "./routes.js";
+import Home from "../pages/Home/Home.jsx";
 
 const RouteElements = () => {
   const element = useRoutes([
@@ -10,6 +11,14 @@ const RouteElements = () => {
       element: (
         <Page>
           <AboutUs />
+        </Page>
+      ),
+    },
+    {
+      path: routes.HOME,
+      element: (
+        <Page>
+          <Home />
         </Page>
       ),
     },

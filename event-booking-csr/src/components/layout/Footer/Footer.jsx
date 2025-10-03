@@ -1,4 +1,6 @@
+import { Link } from "react-router-dom";
 import logo from "../../../assets/icons/logo-with-name-v2.svg";
+import * as routes from "../../../routes/routes.js";
 
 const Footer = () => {
   return (
@@ -9,7 +11,9 @@ const Footer = () => {
         </a>
 
         <div className="flex gap-4">
-          <p className="uppercase">About us</p>
+          <Link to={routes.ABOUT_US} className="uppercase">
+            About us
+          </Link>
           <p>|</p>
           <p className="uppercase">Tickets</p>
         </div>

@@ -3,6 +3,7 @@ import Page from "../components/layout/Page/Page.jsx";
 import AboutUs from "../pages/AboutUs/AboutUs.jsx";
 import * as routes from "./routes.js";
 import Home from "../pages/Home/Home.jsx";
+import EventDetails from "../pages/EventDetails/EventDetails.jsx";
 
 const RouteElements = () => {
   const element = useRoutes([
@@ -19,6 +20,14 @@ const RouteElements = () => {
       element: (
         <Page>
           <Home />
+        </Page>
+      ),
+    },
+    {
+      path: routes.EVENT_DETAILS,
+      element: (
+        <Page>
+          <EventDetails />
         </Page>
       ),
     },

@@ -122,6 +122,8 @@ async function getEventById(_event_id) {
     address: "Dr. Ćire Truhelke 2A",
     category: "music",
     durationInMinutes: 240,
+    numberOfTicketsLeft: 15,
+    priceInBAM: 250,
   };
 }
 

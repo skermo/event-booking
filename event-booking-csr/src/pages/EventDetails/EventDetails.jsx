@@ -5,17 +5,32 @@ import EventPhotos from "./EventPhotos";
 import { dateTimeFormatter } from "../../utils/dateTimeFormatter";
 import EventMap from "./EventMap";
 import GridItem from "../../components/ui/GridItem/GridItem";
+import Button from "../../components/ui/Button/Button";
+import BookEventModal from "./BookEventModal";
+import FlashMessage from "../../components/ui/FlashMessage/FlashMessage";
 
 const EventDetails = () => {
   const { event_id } = useParams();
 
   const [event, setEvent] = useState(null);
   const [similarEvents, setSimilarEvents] = useState([]);
+  const [bookEventModalOpened, setBookEventModalOpened] = useState(false);
+  const [eventBooked, setEventBooked] = useState(false);
 
-  useEffect(() => {
+  const loadEvent = () => {
     eventService.getEventById(event_id).then((res) => {
       setEvent(res);
     });
+  };
+
+  const handleBookingSuccess = () => {
+    setEventBooked(true);
+    loadEvent();
+    setBookEventModalOpened(false);
+  };
+
+  useEffect(() => {
+    loadEvent();
 
     eventService.getSimilarEvents(event_id).then((res) => {
       setSimilarEvents(res);
@@ -32,7 +47,30 @@ const EventDetails = () => {
 
   return (
     <div className="m-15">
-      <p className="font-bold text-xl">Event Details</p>
+      {bookEventModalOpened && (
+        <BookEventModal
+          event={event}
+          onClose={() => {
+            setBookEventModalOpened(false);
+          }}
+          onBookingSuccess={handleBookingSuccess}
+        />
+      )}
+
+      {eventBooked && (
+        <FlashMessage label="Booking successful!" type="success" />
+      )}
+
+      <div className="flex justify-between">
+        <p className="font-bold text-xl">Event Details</p>
+        <Button
+          label={"Book Event"}
+          type="primary"
+          onClick={() => {
+            setBookEventModalOpened(true);
+          }}
+        />
+      </div>
 
       <EventPhotos photos={event.images} />
 
@@ -62,6 +100,14 @@ const EventDetails = () => {
           <div className="flex">
             <p className="text-neutral-500 mr-1">Category:</p>
             <p className="capitalize">{event.category}</p>
+          </div>
+          <div className="flex">
+            <p className="text-neutral-500 mr-1">Price:</p>
+            <p className="capitalize">{event.priceInBAM} KM</p>
+          </div>
+          <div className="flex">
+            <p className="text-neutral-500 mr-1">Number of tickets left:</p>
+            <p className="capitalize">{event.numberOfTicketsLeft}</p>
           </div>
         </div>
         <div className="w-1/2">

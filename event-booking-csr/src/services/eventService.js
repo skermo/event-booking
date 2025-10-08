@@ -186,9 +186,77 @@ async function getSimilarEvents(_event_id) {
   ];
 }
 
+async function searchEvents(
+  _name,
+  _category,
+  _city,
+  _dateFrom,
+  _dateTo,
+  _sortBy,
+  _sortDir
+) {
+  return [
+    {
+      image: "https://m.media-amazon.com/images/I/71WJlUBG91L._AC_SL1273_.jpg",
+      title: "Concert Night",
+      description: "Join us for an unforgettable night of music!",
+      city: "Banja Luka",
+      startDate: "2025-10-05",
+      startTime: "18:30:00",
+    },
+    {
+      image:
+        "https://i.pinimg.com/564x/5d/ed/f8/5dedf81378faf7cb35aa0180698cc13c.jpg",
+      title: "Art Exhibition",
+      description: "Discover amazing art from local artists.",
+      city: "Sarajevo",
+      startDate: "2025-10-06",
+      startTime: "18:30:00",
+    },
+    {
+      image:
+        "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,background=white,quality=75,width=400,height=400/event-covers/hc/b868f311-bbf5-4517-9f58-bc3ee33ae8ce",
+      title: "Tech Meetup",
+      description:
+        "Connect with innovators in your city.blablablablablablablablablablablablavvvvvblablablablablablavvblablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablabla",
+      city: "Tuzla",
+      startDate: "2025-10-07",
+      startTime: "18:30:00",
+    },
+    {
+      image: "https://m.media-amazon.com/images/I/71WJlUBG91L._AC_SL1273_.jpg",
+      title: "Concert Night",
+      description: "Join us for an unforgettable night of music!",
+      city: "Banja Luka",
+      startDate: "2025-10-05",
+      startTime: "18:30:00",
+    },
+    {
+      image:
+        "https://i.pinimg.com/564x/5d/ed/f8/5dedf81378faf7cb35aa0180698cc13c.jpg",
+      title: "Art Exhibition",
+      description: "Discover amazing art from local artists.",
+      city: "Sarajevo",
+      startDate: "2025-10-06",
+      startTime: "18:30:00",
+    },
+    {
+      image:
+        "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,background=white,quality=75,width=400,height=400/event-covers/hc/b868f311-bbf5-4517-9f58-bc3ee33ae8ce",
+      title: "Tech Meetup",
+      description:
+        "Connect with innovators in your city.blablablablablablablablablablablablavvvvvblablablablablablavvblablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablabla",
+      city: "Tuzla",
+      startDate: "2025-10-07",
+      startTime: "18:30:00",
+    },
+  ];
+}
+
 export const eventService = {
   getRecommendedEvents,
   getFeaturedEvents,
   getEventById,
   getSimilarEvents,
+  searchEvents,
 };

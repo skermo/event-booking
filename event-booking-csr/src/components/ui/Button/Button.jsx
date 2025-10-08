@@ -6,7 +6,7 @@ const Button = ({ label, type, disabled = false, onClick }) => {
 
   return (
     <button
-      className={`cursor-pointer font-semibold px-10 py-2 rounded-2xl text-lg shadow-sm ${
+      className={`cursor-pointer font-semibold px-6 py-2 rounded-lg text-lg shadow-sm h-fit ${
         typeClasses[type] || typeClasses.primary
       } ${disabled ? "opacity-50 cursor-none" : ""}`}
       disabled={disabled}

@@ -15,7 +15,9 @@ const Footer = () => {
             About us
           </Link>
           <p>|</p>
-          <p className="uppercase">Tickets</p>
+          <Link to={routes.SEARCH} className="uppercase">
+            Tickets
+          </Link>
         </div>
         <p>
           Copyright @Bookit. Built with love in Bosnia and Herzegovina. All

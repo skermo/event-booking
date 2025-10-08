@@ -4,6 +4,7 @@ import AboutUs from "../pages/AboutUs/AboutUs.jsx";
 import * as routes from "./routes.js";
 import Home from "../pages/Home/Home.jsx";
 import EventDetails from "../pages/EventDetails/EventDetails.jsx";
+import Search from "../pages/Search/Search.jsx";
 
 const RouteElements = () => {
   const element = useRoutes([
@@ -28,6 +29,14 @@ const RouteElements = () => {
       element: (
         <Page>
           <EventDetails />
+        </Page>
+      ),
+    },
+    {
+      path: routes.SEARCH,
+      element: (
+        <Page>
+          <Search />
         </Page>
       ),
     },

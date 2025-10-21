@@ -22,7 +22,7 @@ const Carousel = ({ slides, autoPlayInterval = 6000 }) => {
         {slides.map((slide, index) => (
           <div key={index} className="w-full flex-shrink-0 relative">
             <img
-              src={slide.image}
+              src={slide.images[0].url}
               alt={slide.title}
               className="w-full h-96 object-cover"
             />

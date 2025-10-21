@@ -9,23 +9,23 @@ import org.springframework.data.repository.query.Param;
 import com.skermo.event_booking.entity.Event;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
 public interface EventRepository extends JpaRepository<Event, UUID> {
-    @Query("""
-            SELECT e FROM Event e
-            WHERE LOWER(e.title) LIKE LOWER(CONCAT('%', :name, '%'))
-              AND e.category.id = :categoryId
-              AND e.city.id = :cityId
-              AND e.startDate >= :startDate
-            """)
-    Page<Event> search(
-            @Param("name") String name,
-            @Param("categoryId") UUID categoryId,
-            @Param("cityId") UUID cityId,
-            @Param("startDate") Date startDate,
-            Pageable pageable);
+    @Query("SELECT e FROM Event e " +
+            "WHERE (LOWER(e.title) LIKE LOWER(CONCAT('%', :title, '%'))) " + 
+             "AND (:categoryId IS NULL OR e.category.id = :categoryId) " +
+             "AND (:cityId IS NULL OR e.city.id = :cityId) " +
+             "AND (CAST(:startDate AS DATE) IS NULL OR e.startDate >= :startDate)" 
+)
+Page<Event> search(
+        @Param("title") String title,
+        @Param("categoryId") UUID categoryId,
+        @Param("cityId") UUID cityId,
+        @Param("startDate") LocalDate startDate,
+        Pageable pageable);
 
     @Query("""
             SELECT e FROM Event e

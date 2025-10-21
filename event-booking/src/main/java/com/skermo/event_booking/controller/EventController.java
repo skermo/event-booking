@@ -1,6 +1,6 @@
 package com.skermo.event_booking.controller;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,15 +34,15 @@ public class EventController {
 
     @GetMapping("/search")
     public Page<EventDto> searchEvents(
-            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String title,
             @RequestParam(required = false) UUID categoryId,
             @RequestParam(required = false) UUID cityId,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
             @RequestParam(defaultValue = "0") int pageNo,
             @RequestParam(defaultValue = "10") int pageSize,
             @RequestParam(defaultValue = "startDate") String sortBy,
             @RequestParam(defaultValue = "asc") String sortDir) {
-        return eventService.search(name, categoryId, cityId, startDate, pageNo, pageSize, sortBy, sortDir);
+        return eventService.search(title, categoryId, cityId, startDate, pageNo, pageSize, sortBy, sortDir);
     }
 
     @PostMapping("/{id}/book")

@@ -47,14 +47,15 @@ public class EventService {
         eventRepository.save(event);
     }
 
-    public Page<EventDto> search(String name, UUID category_id, UUID cityId, Date startDate, int pageNo, int pageSize,
+    public Page<EventDto> search(String title, UUID categoryId, UUID cityId, LocalDate startDate, int pageNo,
+            int pageSize,
             String sortBy, String sortDir) {
         Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())
                 ? Sort.by(sortBy).ascending()
                 : Sort.by(sortBy).descending();
 
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-        Page<Event> events = eventRepository.search(name, category_id, cityId, startDate, pageable);
+        Page<Event> events = eventRepository.search(title, categoryId, cityId, startDate, pageable);
         return events.map(this::mapToDto);
     }
 
@@ -77,7 +78,7 @@ public class EventService {
 
     public List<EventDto> getFeaturedEvents() {
         Sort sort = Sort.by(Sort.Direction.ASC, "numberOfTicketsLeft");
-        Pageable pageable = PageRequest.of(1, 6, sort);
+        Pageable pageable = PageRequest.of(1, 3, sort);
         Date today = Date.valueOf(LocalDate.now());
         Page<Event> similarEvents = eventRepository.findFutureEvents(today, pageable);
 

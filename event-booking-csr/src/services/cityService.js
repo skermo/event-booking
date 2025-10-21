@@ -1,18 +1,10 @@
+const API_URL = import.meta.env.VITE_API_URL;
+
 async function getAllCities() {
-  return [
-    {
-      id: "id1",
-      name: "Sarajevo",
-    },
-    {
-      id: "id1",
-      name: "Zenica",
-    },
-    {
-      id: "id1",
-      name: "Banja Luka",
-    },
-  ];
+  const data = await fetch(`${API_URL}/cities`).then((data) => {
+    return data.json();
+  });
+  return data;
 }
 
 export const cityService = { getAllCities };

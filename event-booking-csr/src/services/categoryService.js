@@ -1,18 +1,10 @@
+const API_URL = import.meta.env.VITE_API_URL;
+
 async function getAllCategories() {
-  return [
-    {
-      id: "id1",
-      name: "music",
-    },
-    {
-      id: "id1",
-      name: "art",
-    },
-    {
-      id: "id1",
-      name: "misc",
-    },
-  ];
+  const data = await fetch(`${API_URL}/categories`).then((data) => {
+    return data.json();
+  });
+  return data;
 }
 
 export const categoryService = { getAllCategories };

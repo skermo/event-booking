@@ -14,14 +14,15 @@ const Search = () => {
   const [events, setEvents] = useState([]);
   const [cities, setCities] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [pageNo, setPageNo] = useState(0);
+  const [allEventsLoaded, setAllEventsLoaded] = useState(false);
 
-  let name = searchParams.get("name");
-  let category = searchParams.get("category");
-  let city = searchParams.get("city");
-  let startDate = searchParams.get("startDate");
-  let endDate = searchParams.get("endDate");
-  let sortBy = searchParams.get("sortBy");
-  let sortDir = searchParams.get("sortDir");
+  let title = searchParams.get("title") || "";
+  let categoryId = searchParams.get("categoryId") || "";
+  let cityId = searchParams.get("cityId") || "";
+  let startDate = searchParams.get("startDate") || "";
+  let sortBy = searchParams.get("sortBy") || "";
+  let sortDir = searchParams.get("sortDir") || "";
 
   useEffect(() => {
     categoryService.getAllCategories().then((res) => {
@@ -49,11 +50,44 @@ const Search = () => {
 
   useEffect(() => {
     eventService
-      .searchEvents(name, category, city, startDate, endDate, sortBy, sortDir)
+      .searchEvents(
+        title,
+        categoryId,
+        cityId,
+        startDate,
+        pageNo,
+        sortBy,
+        sortDir
+      )
       .then((res) => {
-        setEvents(res);
+        setAllEventsLoaded(res.last);
+        setPageNo(0);
+        setEvents(res.content);
       });
-  }, [name, category, city, sortBy, sortDir]);
+  }, [title, categoryId, cityId, startDate, sortBy, sortDir]);
+
+  useEffect(() => {
+    eventService
+      .searchEvents(
+        title,
+        categoryId,
+        cityId,
+        startDate,
+        pageNo,
+        sortBy,
+        sortDir
+      )
+      .then((res) => {
+        setAllEventsLoaded(res.last);
+
+        setEvents((prev) => {
+          const newEvents = res.content.filter(
+            (e) => !prev.some((p) => p.id === e.id)
+          );
+          return [...prev, ...newEvents];
+        });
+      });
+  }, [pageNo]);
 
   const sortByOptions = [
     {
@@ -61,8 +95,8 @@ const Search = () => {
       label: "Start date",
     },
     {
-      value: "endDate",
-      label: "End date",
+      value: "title",
+      label: "Title",
     },
   ];
 
@@ -71,16 +105,26 @@ const Search = () => {
     { value: "desc", label: "Descending" },
   ];
 
+  const updateParam = (key, value) => {
+    const params = new URLSearchParams(searchParams);
+    if (value) {
+      params.set(key, value);
+    } else {
+      params.delete(key);
+    }
+    setSearchParams(params);
+  };
+
   return (
-    <div className="p-6">
+    <div className="px-15 py-6">
       <div className="flex gap-3 mb-5 w-full items-end">
         <InputField
           label="Search"
-          name={"name"}
+          name={"title"}
           type="text"
           placeholder={"Search events.."}
-          value={name}
-          onChange={() => setSearchParams(searchParams)}
+          value={title}
+          onChange={(e) => updateParam("title", e.target.value)}
         />
         <Button
           label={"Search"}
@@ -89,19 +133,19 @@ const Search = () => {
         />
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-6">
         <Select
           label="City"
           name="city"
-          value={city}
-          onChange={(e) => updateParam("city", e.target.value)}
+          value={cityId}
+          onChange={(e) => updateParam("cityId", e.target.value)}
           options={cities}
         />
         <Select
           label="Category"
           name="category"
-          value={category}
-          onChange={(e) => updateParam("category", e.target.value)}
+          value={categoryId}
+          onChange={(e) => updateParam("categoryId", e.target.value)}
           options={categories}
         />
 
@@ -112,15 +156,6 @@ const Search = () => {
           placeholder={"Select a start date"}
           value={startDate}
           onChange={(e) => updateParam("startDate", e.target.value)}
-        />
-
-        <InputField
-          label="End Date"
-          name={"endDate"}
-          type="date"
-          placeholder={"Select an end date"}
-          value={endDate}
-          onChange={(e) => updateParam("endDate", e.target.value)}
         />
 
         <Select
@@ -151,6 +186,16 @@ const Search = () => {
           </div>
         )}
       </div>
+
+      {allEventsLoaded == false && (
+        <div className="flex justify-center mt-5">
+          <Button
+            label="Load More"
+            type="primary"
+            onClick={() => setPageNo(pageNo + 1)}
+          />
+        </div>
+      )}
     </div>
   );
 };

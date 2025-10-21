@@ -81,7 +81,7 @@ const EventDetails = () => {
           <div className="flex">
             <p className="text-neutral-500 mr-1">Location:</p>
             <p>
-              {event.city}, {event.address}
+              {event.city.name}, {event.address}
             </p>
           </div>
           <div className="flex">
@@ -99,7 +99,7 @@ const EventDetails = () => {
           </div>
           <div className="flex">
             <p className="text-neutral-500 mr-1">Category:</p>
-            <p className="capitalize">{event.category}</p>
+            <p className="capitalize">{event.category.name}</p>
           </div>
           <div className="flex">
             <p className="text-neutral-500 mr-1">Price:</p>
@@ -111,7 +111,7 @@ const EventDetails = () => {
           </div>
         </div>
         <div className="w-1/2">
-          <EventMap address={`${event.city}, ${event.address}`} />
+          <EventMap address={`${event.city.name}, ${event.address}`} />
         </div>
       </div>
 

@@ -5,6 +5,7 @@ import Button from "../../../../components/ui/Button/Button";
 import InputField from "../../../../components/ui/InputField/InputField";
 import Modal from "../../../../components/ui/Modal/Modal";
 import Select from "../../../../components/ui/Select/Select";
+import { eventService } from "../../../../services/eventService";
 
 export default function BookEventModal({ event, onClose, onBookingSuccess }) {
   const [formData, setFormData] = useState({
@@ -46,9 +47,17 @@ export default function BookEventModal({ event, onClose, onBookingSuccess }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      onBookingSuccess();
-    }
+
+    if (!validateForm()) return;
+
+    eventService
+      .bookEvent(event.id, formData.numberOfTickets)
+      .then(() => {
+        onBookingSuccess();
+      })
+      .catch((err) => {
+        console.error("Booking failed", err);
+      });
   };
 
   const validateForm = () => {

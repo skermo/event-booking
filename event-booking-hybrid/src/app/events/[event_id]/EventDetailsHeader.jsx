@@ -5,13 +5,14 @@ import Button from "../../../../components/ui/Button/Button";
 import BookEventModal from "./BookEventModal";
 import FlashMessage from "../../../../components/ui/FlashMessage/FlashMessage";
 
-export default function EventDetailsHeader({ event }) {
+export default function EventDetailsHeader({ event, onReload }) {
   const [bookEventModalOpened, setBookEventModalOpened] = useState(false);
   const [eventBooked, setEventBooked] = useState(false);
 
   const handleBookingSuccess = () => {
     setEventBooked(true);
     setBookEventModalOpened(false);
+    if (onReload) onReload();
   };
 
   return (

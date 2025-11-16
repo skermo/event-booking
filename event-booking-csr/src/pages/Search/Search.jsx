@@ -126,11 +126,6 @@ const Search = () => {
           value={title}
           onChange={(e) => updateParam("title", e.target.value)}
         />
-        <Button
-          label={"Search"}
-          type="primary"
-          onClick={() => setSearchParams(searchParams)}
-        />
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-6">

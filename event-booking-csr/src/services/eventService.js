@@ -49,10 +49,26 @@ async function searchEvents(
   return data;
 }
 
+async function bookEvent(eventId, numberOfTickets) {
+  const response = await fetch(
+    `${API_URL}/events/${eventId}/book?numberOfTickets=${numberOfTickets}`,
+    {
+      method: "POST",
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to book event");
+  }
+
+  return;
+}
+
 export const eventService = {
   getFutureEvents,
   getFeaturedEvents,
   getEventById,
   getSimilarEvents,
   searchEvents,
+  bookEvent,
 };

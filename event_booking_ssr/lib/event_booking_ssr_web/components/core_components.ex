@@ -19,8 +19,6 @@ defmodule EventBookingSSRWeb.CoreComponents do
       we build on. You will use it for layout, sizing, flexbox, grid, and
       spacing.
 
-    * [Heroicons](https://heroicons.com) - see `icon/1` for usage.
-
     * [Phoenix.Component](https://hexdocs.pm/phoenix_live_view/Phoenix.Component.html) -
       the component system used by Phoenix. Some components, such as `<.link>`
       and `<.form>`, are defined there.
@@ -64,15 +62,12 @@ defmodule EventBookingSSRWeb.CoreComponents do
         @kind == :info && "alert-info",
         @kind == :error && "alert-error"
       ]}>
-        <.icon :if={@kind == :info} name="hero-information-circle" class="size-5 shrink-0" />
-        <.icon :if={@kind == :error} name="hero-exclamation-circle" class="size-5 shrink-0" />
         <div>
           <p :if={@title} class="font-semibold">{@title}</p>
           <p>{msg}</p>
         </div>
         <div class="flex-1" />
         <button type="button" class="group self-start cursor-pointer" aria-label={gettext("close")}>
-          <.icon name="hero-x-mark" class="size-5 opacity-40 group-hover:opacity-70" />
         </button>
       </div>
     </div>
@@ -236,7 +231,6 @@ defmodule EventBookingSSRWeb.CoreComponents do
   defp error(assigns) do
     ~H"""
     <p class="mt-1.5 flex gap-2 items-center text-sm text-error">
-      <.icon name="hero-exclamation-circle" class="size-5" />
       {render_slot(@inner_block)}
     </p>
     """
@@ -332,33 +326,6 @@ defmodule EventBookingSSRWeb.CoreComponents do
     """
   end
 
-  @doc """
-  Renders a [Heroicon](https://heroicons.com).
-
-  Heroicons come in three styles – outline, solid, and mini.
-  By default, the outline style is used, but solid and mini may
-  be applied by using the `-solid` and `-mini` suffix.
-
-  You can customize the size and colors of the icons by setting
-  width, height, and background color classes.
-
-  Icons are extracted from the `deps/heroicons` directory and bundled within
-  your compiled app.css by the plugin in `assets/vendor/heroicons.js`.
-
-  ## Examples
-
-      <.icon name="hero-x-mark" />
-      <.icon name="hero-arrow-path" class="ml-1 size-3 motion-safe:animate-spin" />
-  """
-  attr :name, :string, required: true
-  attr :class, :string, default: "size-4"
-
-  def icon(%{name: "hero-" <> _} = assigns) do
-    ~H"""
-    <span class={[@name, @class]} />
-    """
-  end
-
   ## JS Commands
 
   def show(js \\ %JS{}, selector) do
@@ -382,7 +349,7 @@ defmodule EventBookingSSRWeb.CoreComponents do
     )
   end
 
-    @doc """
+  @doc """
   Renders a flash message with auto-dismiss and progress bar.
 
   ## Example
@@ -398,23 +365,30 @@ defmodule EventBookingSSRWeb.CoreComponents do
       |> assign_new(:progress, fn -> 100 end)
 
     ~H"""
-    <div :if={@visible} id={"flash-#{@type} %>"} class={[
-          "relative p-3 rounded-b-2xl mb-4 w-full font-semibold",
-          @type == :success && "bg-green-100 text-green-700",
-          @type == :error && "bg-red-100 text-red-700"
-        ]}
-        phx-hook="FlashMessage"
-        phx-update="ignore"
-        data-duration={@duration}>
+    <div
+      :if={@visible}
+      id={"flash-#{@type} %>"}
+      class={[
+        "relative p-3 rounded-b-2xl mb-4 w-full font-semibold",
+        @type == :success && "bg-green-100 text-green-700",
+        @type == :error && "bg-red-100 text-red-700"
+      ]}
+      phx-hook="FlashMessage"
+      phx-update="ignore"
+      data-duration={@duration}
+    >
       <div class="absolute top-0 right-0 w-full bg-gray-200 rounded-b-2xl overflow-hidden">
-        <div class={[
-              "transition-all duration-50 ease-linear h-0.5",
-              @type == :error && "bg-red-500",
-              @type == :success && "bg-green-500"
-            ]}
-            style={"width: #{@progress}%"}></div>
+        <div
+          class={[
+            "transition-all duration-50 ease-linear h-0.5",
+            @type == :error && "bg-red-500",
+            @type == :success && "bg-green-500"
+          ]}
+          style={"width: #{@progress}%"}
+        >
+        </div>
       </div>
-      <%= @label %>
+      {@label}
     </div>
     """
   end

@@ -11,7 +11,7 @@ const EventPhotos = ({ photos }) => {
           <img
             key={photo.id}
             src={photo.url}
-            className="w-full h-1/2 object-cover rounded-2xl"
+            className="w-full h-full object-cover rounded-2xl"
           />
         ))}
       </div>

@@ -1,0 +1,26 @@
+<Layouts.app flash={@flash}>
+  <div class="page-home">
+    <.carousel slides={@recommended_events} />
+
+    <div class="m-15">
+      <p class="font-bold mb-3 text-xl">Future Events</p>
+
+      <div class="flex flex-wrap gap-10 justify-between">
+        <div :for={event <- @featured_events} key={event.id}>
+          <.grid_item item={event} />
+        </div>
+      </div>
+
+      <%= if not @all_events_loaded do %>
+        <div class="flex justify-center mt-5">
+          <.button
+            label="Load More"
+            type={:primary}
+            phx-click="load_more"
+            phx-disable-with="Loading..."
+          />
+        </div>
+      <% end %>
+    </div>
+  </div>
+</Layouts.app>

@@ -1,0 +1,73 @@
+<Layouts.app flash={@flash}>
+  <div class="m-15">
+    <%= if @book_event_modal_opened do %>
+      <.book_event_modal
+        event={@event}
+        on_close={JS.push("close_booking_modal")}
+        on_success={fn -> send(self(), :booking_success) end}
+      /> />
+    <% end %>
+
+    <%= if @event_booked do %>
+      <.flash_message label="Booking successful!" type={:success} />
+    <% end %>
+
+    <div class="flex justify-between">
+      <p class="font-bold text-xl">Event Details</p>
+      <.button
+        label="Book Event"
+        type={:primary}
+        phx-click="open_booking_modal"
+      />
+    </div>
+
+    <.event_photos photos={@event.images} />
+
+    <div class="flex min-h-80 h-fit mt-4">
+      <div class="w-1/2 flex flex-col gap-2">
+        <p class="font-bold text-3xl">{@event.title}</p>
+        <p>{@event.description}</p>
+        <div class="flex">
+          <p class="text-neutral-500 mr-1">Location:</p>
+          <p>{@event.city.name}, {@event.address}</p>
+        </div>
+        <div class="flex">
+          <p class="text-neutral-500 mr-1">Start time:</p>
+          <p>
+            {EventBookingSSRWeb.DateTimeFormatter.format_date_time(
+              @event.startDate,
+              @event.startTime
+            )}
+          </p>
+        </div>
+        <div class="flex">
+          <p class="text-neutral-500 mr-1">Duration:</p>
+          <p>{EventBookingSSRWeb.DateTimeFormatter.format_duration(@event.durationInMinutes)}</p>
+        </div>
+        <div class="flex">
+          <p class="text-neutral-500 mr-1">Category:</p>
+          <p class="capitalize">{@event.category.name}</p>
+        </div>
+        <div class="flex">
+          <p class="text-neutral-500 mr-1">Price:</p>
+          <p>{@event.priceInBAM} KM</p>
+        </div>
+        <div class="flex">
+          <p class="text-neutral-500 mr-1">Number of tickets left:</p>
+          <p>{@event.numberOfTicketsLeft}</p>
+        </div>
+      </div>
+
+      <div class="w-1/2">
+        <.event_map address={"#{@event.city.name}, #{@event.address}"} />
+      </div>
+    </div>
+
+    <p class="font-bold text-xl my-5">See also</p>
+    <div class="flex gap-10 justify-between">
+      <%= for similar_event <- @similar_events do %>
+        <.grid_item item={similar_event} />
+      <% end %>
+    </div>
+  </div>
+</Layouts.app>
